@@ -1,8 +1,8 @@
 package com.huazai.community.controller;
 
+import com.huazai.community.dao.UserDao;
 import com.huazai.community.dto.AccessTokenDTO;
 import com.huazai.community.dto.GithubUser;
-import com.huazai.community.mapper.UserMapper;
 import com.huazai.community.model.User;
 import com.huazai.community.provider.GithubProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
 @Controller
@@ -21,7 +22,7 @@ public class AuthorizeController {
     private GithubProvider githubProvider;
 
     @Autowired
-    private UserMapper userMapper;
+    private UserDao userDao;
 
     @Value("${github.client.id}")
     private String clientId;
@@ -33,7 +34,8 @@ public class AuthorizeController {
     @GetMapping("/callback")//请求路径
     public String callback(@RequestParam(name="code")String code,
                            @RequestParam(name="state")String state,
-                           HttpServletRequest request){//获取请求地址栏传回的参数
+
+                           HttpServletResponse response){//获取请求地址栏传回的参数
 
         AccessTokenDTO accessTokenDTO = new AccessTokenDTO();
         accessTokenDTO.setClient_id(clientId);
@@ -50,13 +52,16 @@ public class AuthorizeController {
             //登陆成功
             //设置user信息
             User user = new User();
-            user.setToken(UUID.randomUUID().toString());
+            String token = UUID.randomUUID().toString();//代替session
+            user.setToken(token);
             user.setName(githubUser.getName());
             user.setAccountId(String.valueOf(githubUser.getId()));
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());
-            userMapper.insert(user);
-            request.getSession().setAttribute("user",githubUser);//将用户信息放到session中
+            userDao.insert(user);
+            response.addCookie(new Cookie("token",token));//将随机生成的token放到cookie
+
+            //request.getSession().setAttribute("user",githubUser);//将用户信息放到session中
             return "redirect:/";//返回界面(重定向)
         }else{
             return "redirect:/";//返回界面(重定向)

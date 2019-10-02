@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huazai.community.dao.UserDao">
+
+    <!-- 添加用户 -->
+    <insert id="insert" parameterType="User">
+		insert into user (name, accountId, token, gmtCreate, gmtModified) values(#{name},#{accountId},#{token},#{gmtCreate},#{gmtModified})
+	</insert>
+
+    <select id="findUserByToken" resultType="User" parameterType="String">
+        select * from user where TOKEN = #{token}
+    </select>
+
+</mapper>
