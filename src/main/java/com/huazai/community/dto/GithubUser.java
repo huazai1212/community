@@ -1,10 +1,22 @@
 package com.huazai.community.dto;
 
+/**
+ * 用于封装三方登陆信息
+ */
 public class GithubUser {
 
     private String name;
     private Long id;
     private String bio;
+    private String avatarUrl;
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
+    }
 
     public String getName() {
         return name;

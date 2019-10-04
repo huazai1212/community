@@ -48,16 +48,18 @@ public class AuthorizeController {
         System.out.println("=====================");
         System.out.println(githubUser.getName());
         System.out.println(githubUser.getId());
-        if (githubUser != null){
+        if (githubUser != null  && githubUser.getId() != null){
             //登陆成功
             //设置user信息
             User user = new User();
             String token = UUID.randomUUID().toString();//代替session
             user.setToken(token);
             user.setName(githubUser.getName());
+            user.setBio(githubUser.getBio());
             user.setAccountId(String.valueOf(githubUser.getId()));
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());
+            user.setAvatarUrl(githubUser.getAvatarUrl());
             userDao.insert(user);
             response.addCookie(new Cookie("token",token));//将随机生成的token放到cookie
 

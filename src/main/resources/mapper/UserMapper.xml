@@ -6,7 +6,9 @@
 
     <!-- 添加用户 -->
     <insert id="insert" parameterType="User">
-		insert into user (name, accountId, token, gmtCreate, gmtModified) values(#{name},#{accountId},#{token},#{gmtCreate},#{gmtModified})
+		insert into user (name, accountId, token, gmtCreate, gmtModified, avatarUrl)
+		            values
+		                (#{name},#{accountId},#{token},#{gmtCreate},#{gmtModified},#{avatarUrl})
 	</insert>
 
     <select id="findUserByToken" resultType="User" parameterType="String">

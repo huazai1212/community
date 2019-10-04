@@ -1,13 +1,14 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>华仔社区</title>
+    <title>发布 - 华仔社区</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="css/bootstrap.min.css"/>
     <link rel="stylesheet" href="css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="css/community.css"/><!--引入样式-->
     <script src="js/bootstrap.min.js" type="application/javascript"></script>
 </head>
-<body>
+<body style="background-color: #efefef">
 <nav class="navbar navbar-default">
     <div class="container-fluid">
                 <div class="navbar-header">
@@ -26,7 +27,9 @@
             </form>
 
             <ul class="nav navbar-nav navbar-right">
-
+                <li th:if="${session.user != null}">
+                    <a href="/publish">发布</a>
+                </li>
                 <li class="dropdown" th:if="${session.user != null}">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                            aria-expanded="false" th:text="${session.user.getName()}">
@@ -44,17 +47,40 @@
             </ul>
         </div>
     </div>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-9 col-sm-12 col-xs-12" style="background-color: red; height: 300px">
-
-            </div>
-
-            <div class="col-lg-3 col-sm-12 col-xs-12" style="background-color: green; height: 300px">
-
-            </div>
+</nav>
+<!--main是引入的样式-->
+<div class="container-fluid main"  style="background-color: white">
+    <div class="row">
+        <div class="col-lg-9 col-sm-12 col-xs-12">
+            <h2><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>发起问题</h2>
+            <form action="/publish" method="post">
+                <div class="form-group">
+                    <label for="title">问题标题（简明扼要）</label>
+                    <input type="text" name="title" class="form-control" id="title" th:value="${title}" placeholder="问题标题...">
+                </div>
+                <div class="form-group">
+                    <label for="title">问题补充（必填，请参照右侧提示）</label>
+                    <textarea name="description" id="description" class="form-control" th:text="${description}" cols="30" rows="10"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="title">添加标签</label>
+                    <input type="text" class="form-control" name="tag" id="tag" th:value="${tag}" placeholder="输入标签以逗号 “，” 隔开">
+                </div>
+                <span  class="alert alert-danger" th:if="${error != null}" th:text="${error}"></span>
+                <button type="submit" class="btn btn-success btn-publish">发布问题</button>
+            </form>
+        </div>
+        <div class="col-lg-3 col-sm-12 col-xs-12">
+            <h3>问题发起指南</h3>
+            • 问题标题: 请用精简的语言描述您发布的问题，不超过25字<br>
+            • 问题补充: 详细补充您的问题内容，并确保问题描述清晰直观, 并提供一些相关的资料：<br>
+            • 选择标签: 输入标签以逗号 “，” 隔开，每个标签不超过10个字<br>
+            •问题发生的上下文信息；<br>
+            •可以完整复现问题的代码（如可直接运行于 Kibana Console 的复现流程）；<br>
+            •补充完整的异常和错误信息；<br>
+            •注意阅读格式友好，代码和异常信息请用代码标签格式化张贴。<br>
         </div>
     </div>
-</nav>
+</div>
 </body>
 </html>

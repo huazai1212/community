@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huazai.community.dao.QuestionDao">
+
+    <!-- 添加问题 -->
+    <insert id="addQuestion" parameterType="Question">
+		insert into question (id, title, description, gmtCreate, gmtModified, creator, commentCount, viewCount, likeCount, tag)
+		                    values
+		                (null,#{title},#{description},#{gmtCreate},#{gmtModified},#{creator},#{commentCount},#{viewCount},#{likeCount},#{tag})
+	</insert>
+
+
+
+</mapper>

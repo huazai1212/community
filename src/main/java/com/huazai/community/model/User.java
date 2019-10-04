@@ -1,13 +1,25 @@
 package com.huazai.community.model;
 
+/**
+ * 用户信息
+ */
 public class User {
-    private Integer id;
+    private Integer id;//id
     private String name;
     private String accountId;
     private String token;
     private Long gmtCreate;
     private Long gmtModified;
-    private String bio;
+    private String bio;//简介
+    private String avatarUrl;//用户头像
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
+    }
 
     public String getBio() {
         return bio;
