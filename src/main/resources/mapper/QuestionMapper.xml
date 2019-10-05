@@ -4,13 +4,18 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.huazai.community.dao.QuestionDao">
 
-    <!-- 添加问题 -->
+    <!-- 添加问题
     <insert id="addQuestion" parameterType="Question">
 		insert into question (id, title, description, gmtCreate, gmtModified, creator, commentCount, viewCount, likeCount, tag)
 		                    values
 		                (null,#{title},#{description},#{gmtCreate},#{gmtModified},#{creator},#{commentCount},#{viewCount},#{likeCount},#{tag})
 	</insert>
+	-->
 
-
+	<!--查询问题
+	<select id="getQuestionList" resultType="Question" parameterType="Integer">
+		select * from question limit #{offset} , #{size}
+	</select>
+	-->
 
 </mapper>
