@@ -5,9 +5,9 @@ package com.huazai.community.dto;
  */
 public class GithubUser {
 
-    private String name;
-    private Long id;
-    private String bio;
+    private String name;//Github账户的名字，Github提供
+    private Long id;//Github账户的id，Github提供
+    private String bio;//Github账户的id，Github提供
     private String avatarUrl;
 
     public String getAvatarUrl() {

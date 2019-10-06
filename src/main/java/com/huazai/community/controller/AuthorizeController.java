@@ -5,6 +5,7 @@ import com.huazai.community.dto.AccessTokenDTO;
 import com.huazai.community.dto.GithubUser;
 import com.huazai.community.model.User;
 import com.huazai.community.provider.GithubProvider;
+import com.huazai.community.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -22,7 +23,7 @@ public class AuthorizeController {
     private GithubProvider githubProvider;
 
     @Autowired
-    private UserDao userDao;
+    private UserService userService;
 
     @Value("${github.client.id}")
     private String clientId;
@@ -45,9 +46,7 @@ public class AuthorizeController {
         accessTokenDTO.setState(state);
         String accessToken = githubProvider.getAccessToken(accessTokenDTO);
         GithubUser githubUser =  githubProvider.getUser(accessToken);//获取用户信息
-        System.out.println("=====================");
-        System.out.println(githubUser.getName());
-        System.out.println(githubUser.getId());
+
         if (githubUser != null  && githubUser.getId() != null){
             //登陆成功
             //设置user信息
@@ -57,10 +56,10 @@ public class AuthorizeController {
             user.setName(githubUser.getName());
             user.setBio(githubUser.getBio());
             user.setAccountId(String.valueOf(githubUser.getId()));
-            user.setGmtCreate(System.currentTimeMillis());
-            user.setGmtModified(user.getGmtCreate());
             user.setAvatarUrl(githubUser.getAvatarUrl());
-            userDao.insert(user);
+            //判断是否有用户，如果有则更新，如果没有则新增
+            userService.createOrUpdateUser(user);
+
             response.addCookie(new Cookie("token",token));//将随机生成的token放到cookie
 
             //request.getSession().setAttribute("user",githubUser);//将用户信息放到session中

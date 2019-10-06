@@ -1,0 +1,89 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${sectionName}"></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="/css/community.css"/><!--引入样式-->
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <script src="/js/bootstrap.min.js" type="application/javascript"></script>
+</head>
+<body style="background-color: #efefef">
+<div th:insert="navigation :: handNav"></div>
+<!--main是引入的样式-->
+<div class="container-fluid main " style="background-color: white">
+    <div class="row">
+        <div class="col-lg-9 col-sm-12 col-xs-12">
+            <h3><span th:text="${sectionName}"></span></h3>
+            <div class="media" th:each="question : ${paginationDTO.questionDTOList}">
+                <div class="media-left">
+                    <a href="#">
+                        <img style="height: 56px;width: 56px" class="media-object img-rounded"
+                             th:src="${question.user.avatarUrl}"     >
+                    </a>
+                </div>
+                <div class="media-body">
+                    <h4 class="media-heading" th:text="${question.title}"></h4>
+                    <span th:text="${question.description}"></span><br>
+                    <span class="aw-question-content">
+                            <a class="aw-question-tags" href="#" th:text="${question.tag}"></a>
+                            • <span th:text="${question.user.name}"></span> 发起的问题
+                            • <span th:text="${question.viewCount}"></span> 次浏览
+                            • <span th:text="${question.commentCount}"></span> 个回复
+                            • <span th:text="${#dates.format(question.gmtCreate, 'yyyy-MM-dd HH:mm')}"></span>
+                        </span>
+                </div>
+            </div>
+            <nav aria-label="Page navigation">
+                <div>
+                    <br>
+                    <br>
+                    •共<span th:text="${paginationDTO.totalCount}"></span> 条问题
+                    •共<span th:text="${paginationDTO.totalPage}"></span> 页
+                </div>
+                <ul class="pagination">
+                    <li th:if="${paginationDTO.showFirstPage}">
+                        <a th:href="@{'/profile/'+${section}(page=1)}" aria-label="Previous">
+                            <span aria-hidden="true">首页</span>
+                        </a>
+                    </li>
+                    <li th:if="${paginationDTO.showPrevious}">
+                        <a th:href="@{'/profile/'+${section}(page=${paginationDTO.page - 1})}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li th:each="currentPage : ${paginationDTO.pages}"  th:class="${paginationDTO.page == currentPage}? 'active' : ''">
+                        <a th:href="@{'/profile/'+${section}(page=${currentPage})}" th:text="${currentPage}"></a>
+                    </li>
+                    <li th:if="${paginationDTO.showNext}">
+                        <a th:href="@{'/profile/'+${section}(page=${paginationDTO.page + 1})}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                    <li th:if="${paginationDTO.showEndPage}">
+                        <a th:href="@{'/profile/'+${section}(page=${paginationDTO.totalPage})}" aria-label="Previous">
+                            <span aria-hidden="true">尾页</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+        <div class="col-lg-3 col-sm-12 col-xs-12 " >
+            <div class="list-group profile-section"  >
+                <a href="/profile/questions"  th:class="${section == 'questions'}? 'list-group-item active' : 'list-group-item'">
+                    我的提问<span class="badge">14</span>
+                </a>
+                <a href="/profile/replies" th:class="${section == 'replies'}? 'list-group-item active' : 'list-group-item'">
+                    最新回复<span class="badge">14</span>
+                </a>
+                <a href="#" class="list-group-item">Morbi leo risus<span class="badge">10</span></a>
+                <a href="#" class="list-group-item">Porta ac consectetur ac</a>
+                <a href="#" class="list-group-item">Vestibulum at eros</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

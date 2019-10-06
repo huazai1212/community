@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
@@ -19,8 +18,7 @@ public class PublishController {
 
     @Autowired
     private  QuestionDao questionDao;
-    @Autowired
-    private  UserDao userDao;
+
 
     @GetMapping("/publish")
     public String publish(){
@@ -62,27 +60,14 @@ public class PublishController {
         }
 
         //验证用户是否登录（只要在本次会话中登录即可，登录后会将登陆标识放到cookies中）
-        User user = null;
-        Cookie[] cookies = request.getCookies();
-        if(cookies == null || cookies.length == 0){
-            model.addAttribute("error", "用户未登录");
-            return "publish";
-        }
-        for(Cookie cookie : cookies){
+        //先验证登陆
+        User  user  = (User) request.getSession().getAttribute("user");
 
-            if(cookie.getName().equals("token")){
-                String token = cookie.getValue();
-                user = userDao.findUserByToken(token);
-                if(user != null){
-                    request.getSession().setAttribute("user",user);
-                }
-                break;
-            }
-        }
         if(user == null ){
             model.addAttribute("error", "用户未登录");
             return "publish";
         }
+
         //设置问题属性
         Question question = new Question();
         question.setTitle(title);

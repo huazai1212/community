@@ -20,7 +20,7 @@
                 <div class="media-left">
                     <a href="#">
                         <img style="height: 56px;width: 56px" class="media-object img-rounded"
-                         th:src="${question.user.avatarUrl}"     >
+                         th:src="${question.user.avatarUrl}">
                     </a>
                 </div>
                 <div class="media-body">
@@ -39,7 +39,8 @@
                 <div>
                     <br>
                     <br>
-                    共<span th:text="${paginationDTO.totalCount}"></span> 条问题
+                    •共<span th:text="${paginationDTO.totalCount}"></span> 条问题
+                    •共<span th:text="${paginationDTO.totalPage}"></span> 页
                 </div>
                 <ul class="pagination">
                     <li th:if="${paginationDTO.showFirstPage}">

@@ -5,11 +5,11 @@ package com.huazai.community.model;
  */
 public class User {
     private Integer id;//id
-    private String name;
-    private String accountId;
-    private String token;
-    private Long gmtCreate;
-    private Long gmtModified;
+    private String name;//用户名
+    private String accountId;//用户使用Github登陆系统是提供的id，唯一
+    private String token;//相当于每次会话的密码，每次登录时随机生成
+    private Long gmtCreate;//注册时间
+    private Long gmtModified;//修改时间
     private String bio;//简介
     private String avatarUrl;//用户头像
 
