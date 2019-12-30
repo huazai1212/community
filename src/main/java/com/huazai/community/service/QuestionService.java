@@ -1,7 +1,7 @@
 package com.huazai.community.service;
 
-import com.huazai.community.dao.QuestionDao;
-import com.huazai.community.dao.UserDao;
+import com.huazai.community.dao.QuestionMapper;
+import com.huazai.community.dao.UserMapper;
 import com.huazai.community.dto.PaginationDTO;
 import com.huazai.community.dto.QuestionDTO;
 import com.huazai.community.model.Question;
@@ -16,9 +16,9 @@ import java.util.List;
 @Service
 public class QuestionService {
     @Autowired
-    private UserDao userDao;
+    private UserMapper userMapper;
     @Autowired
-    private QuestionDao questionDao;
+    private QuestionMapper questionMapper;
 
 
     /**
@@ -30,7 +30,7 @@ public class QuestionService {
     public PaginationDTO getPaginationDTO(Integer currentpage, Integer size) {
 
         //查询总问题数
-        Integer totalQuestionCount = questionDao.count();
+        Integer totalQuestionCount = questionMapper.count();
         //处理分页信息
         PaginationDTO paginationDTO = new PaginationDTO();
         paginationDTO.setPagination(totalQuestionCount, currentpage, size);
@@ -38,14 +38,14 @@ public class QuestionService {
         //计算分页查询参数  limit offset，5
         Integer offset = (paginationDTO.getPage() - 1) * size;
         //查询所有的问题，不带用户（只带用户id，即Creator）
-        List<Question> questionList =  questionDao.getQuestionList(offset, size);
+        List<Question> questionList =  questionMapper.getQuestionList(offset, size);
         //创建集合用于存放查出的questionDTOList，携带用户信息
         List<QuestionDTO> questionDTOList = new ArrayList<QuestionDTO>();
 
         //循环查询获得用户信息
         for(Question question : questionList){
             Integer userId = question.getCreator();//获取作者即用户
-            User user = userDao.findUserById(userId);
+            User user = userMapper.findUserById(userId);
 
             //将查到的Question封装到QuestionDTO中
             QuestionDTO questionDTO = new QuestionDTO();
@@ -77,7 +77,7 @@ public class QuestionService {
     public PaginationDTO getPaginationDTO(Integer userId, Integer currentpage, Integer size) {
 
         //查询总问题数
-        Integer totalQuestionCount = questionDao.countByUserId(userId);
+        Integer totalQuestionCount = questionMapper.countByUserId(userId);
         //处理分页信息
         PaginationDTO paginationDTO = new PaginationDTO();
         paginationDTO.setPagination(totalQuestionCount, currentpage, size);
@@ -85,13 +85,13 @@ public class QuestionService {
         //计算分页查询参数  limit offset，5
         Integer offset = (paginationDTO.getPage() - 1) * size;
         //查询所有的问题，不带用户（只带用户id，即Creator）
-        List<Question> questionList =  questionDao.getQuestionListByUser(userId, offset, size);
+        List<Question> questionList =  questionMapper.getQuestionListByUser(userId, offset, size);
         //创建集合用于存放查出的questionDTOList，携带用户信息
         List<QuestionDTO> questionDTOList = new ArrayList<QuestionDTO>();
 
         //循环查询获得用户信息
         for(Question question : questionList){
-            User user = userDao.findUserById(userId);
+            User user = userMapper.findUserById(userId);
 
             //将查到的Question封装到QuestionDTO中
             QuestionDTO questionDTO = new QuestionDTO();

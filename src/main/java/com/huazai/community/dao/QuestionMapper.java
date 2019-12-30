@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Select;
 import java.util.List;
 
 @Mapper
-public interface QuestionDao {
+public interface QuestionMapper {
 
     //用户提问
     @Select("insert into question (id, title, description, gmtCreate, gmtModified, creator, commentCount, viewCount, likeCount, tag) " +

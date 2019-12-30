@@ -1,7 +1,6 @@
 package com.huazai.community.controller;
 
-import com.huazai.community.dao.QuestionDao;
-import com.huazai.community.dao.UserDao;
+import com.huazai.community.dao.QuestionMapper;
 import com.huazai.community.model.Question;
 import com.huazai.community.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,13 +10,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class PublishController {
 
-    @Autowired
-    private  QuestionDao questionDao;
+    @Resource
+    private QuestionMapper questionMapper;
 
 
     @GetMapping("/publish")
@@ -77,7 +77,7 @@ public class PublishController {
         question.setGmtCreate(System.currentTimeMillis());
         question.setGmtModified(System.currentTimeMillis());
         //新增问题
-        questionDao.addQuestion(question);
+        questionMapper.addQuestion(question);
         model.addAttribute("success", "问题发布成功");
         //返回界面
         return "redirect:/";//返回界面(重定向)

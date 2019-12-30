@@ -1,6 +1,5 @@
 package com.huazai.community.controller;
 
-import com.huazai.community.dao.UserDao;
 import com.huazai.community.dto.AccessTokenDTO;
 import com.huazai.community.dto.GithubUser;
 import com.huazai.community.model.User;

@@ -2,17 +2,43 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.huazai.community.dao.UserDao">
+<mapper namespace="com.huazai.community.dao.UserMapper">
 
-    <!-- 添加用户 -->
     <insert id="insert" parameterType="User">
 		insert into user (name, accountId, token, gmtCreate, gmtModified, avatarUrl)
 		            values
 		                (#{name},#{accountId},#{token},#{gmtCreate},#{gmtModified},#{avatarUrl})
 	</insert>
 
-    <select id="findUserByToken" resultType="User" parameterType="String">
+    <select id="findUserByToken" resultType="com.huazai.community.model.User" parameterType="String">
         select * from user where TOKEN = #{token}
     </select>
+
+    <select id="findUserById" resultType="com.huazai.community.model.User" parameterType="String">
+        select * from user where id = #{id}
+    </select>
+
+    <select id="findUserByAccountId" resultType="com.huazai.community.model.User" parameterType="String">
+        select * from user where accountId = #{accountId}
+    </select>
+
+    <update id="updateUser">
+        update user set
+        <if test="name!=null and name!=''">
+            name = #{name},
+        </if>
+        <if test="token!=null and token!=''">
+            token = #{token},
+        </if>
+        <if test="gmtModified!=null and gmtModified!=''">
+            gmtModified = #{gmtModified},
+        </if>
+        <if test="avatarUrl!=null and avatarUrl!=''">
+            avatarUrl = #{avatarUrl},
+        </if>
+
+        where shopId=#{shopId} and boxId=#{boxId}
+    </update>
+
 
 </mapper>

@@ -1,6 +1,6 @@
 package com.huazai.community.service;
 
-import com.huazai.community.dao.UserDao;
+import com.huazai.community.dao.UserMapper;
 import com.huazai.community.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,17 +9,17 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     @Autowired
-    private UserDao userDao;
+    private UserMapper userMapper;
 
     public void createOrUpdateUser(User user) {
-        User dbUser = userDao.findUserByAccountId(user.getAccountId());
+        User dbUser = userMapper.findUserByAccountId(user.getAccountId());
 
         if(dbUser == null){//需要新增用户
 
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());
 
-            userDao.insert(user);
+            userMapper.insert(user);
 
         }else{//需要更新用户
 
@@ -29,12 +29,12 @@ public class UserService {
             dbUser.setName(user.getName());
             dbUser.setToken(user.getToken());
             //更新用户
-            userDao.updateUser(dbUser);
+            userMapper.updateUser(dbUser);
         }
     }
 
     //根据token查询用户
     public User findUserByToken(String token) {
-        return userDao.findUserByToken(token);
+        return userMapper.findUserByToken(token);
     }
 }

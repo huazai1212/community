@@ -2,20 +2,101 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.huazai.community.dao.QuestionDao">
+<mapper namespace="com.huazai.community.dao.QuestionMapper">
 
-    <!-- 添加问题
-    <insert id="addQuestion" parameterType="Question">
-		insert into question (id, title, description, gmtCreate, gmtModified, creator, commentCount, viewCount, likeCount, tag)
-		                    values
-		                (null,#{title},#{description},#{gmtCreate},#{gmtModified},#{creator},#{commentCount},#{viewCount},#{likeCount},#{tag})
-	</insert>
-	-->
+    <!--<insert id="addQuestion" parameterType="Question">-->
+		<!--insert into question (id, title, description, gmtCreate, gmtModified, creator, commentCount, viewCount, likeCount, tag)-->
+		                    <!--values-->
+		                <!--(null,#{title},#{description},#{gmtCreate},#{gmtModified},#{creator},#{commentCount},#{viewCount},#{likeCount},#{tag})-->
+	<!--</insert>-->
 
-	<!--查询问题
-	<select id="getQuestionList" resultType="Question" parameterType="Integer">
+	<select id="getQuestionList" resultType="com.huazai.community.model.Question" >
 		select * from question limit #{offset} , #{size}
 	</select>
-	-->
+
+    <insert id="addQuestion">
+        insert into question
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id!=null and id!=''">
+                id,
+            </if>
+            <if test="title!=null and title!=''">
+                title,
+            </if>
+            <if test="description!=null and description!=''">
+                description,
+            </if>
+            <if test="gmtCreate!=null and gmtCreate!=''">
+                gmtCreate,
+            </if>
+            <if test="gmtModified!=null and gmtModified!=''">
+                gmtModified,
+            </if>
+            <if test="creator!=null and creator!=''">
+                creator,
+            </if>
+            <if test="commentCount!=null and commentCount!=''">
+                commentCount,
+            </if>
+            <if test="viewCount!=null and viewCount!=''">
+                viewCount,
+            </if>
+            <if test="likeCount!=null and likeCount!=''">
+                likeCount,
+            </if>
+            <if test="tag!=null and tag!=''">
+                tag
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id!=null and id!=''">
+                null,
+            </if>
+            <if test="title!=null and title!=''">
+                #{title},
+            </if>
+            <if test="description!=null and description!=''">
+                #{description},
+            </if>
+            <if test="gmtCreate!=null and gmtCreate!=''">
+                #{gmtCreate},
+            </if>
+            <if test="gmtModified!=null and gmtModified!=''">
+                #{gmtModified},
+            </if>
+            <if test="creator!=null and creator!=''">
+                #{creator},
+            </if>
+            <if test="commentCount!=null and commentCount!=''">
+                #{commentCount},
+            </if>
+            <if test="viewCount!=null and viewCount!=''">
+                #{viewCount},
+            </if>
+            <if test="likeCount!=null and likeCount!=''">
+                #{likeCount},
+            </if>
+            <if test="tag!=null and tag!=''">
+                #{tag}
+            </if>
+        </trim>
+
+
+    </insert>
+
+    <select id="getQuestionListByUser" resultType="com.huazai.community.model.Question" >
+        select * from question where creator=#{userId} limit #{offset} , #{size};
+    </select>
+
+    <select id="count" resultType="Integer" >
+        select count(1) from question where creator = #{userId};
+    </select>
+
+    <select id="countByUserId" resultType="Integer" >
+        select count(1) from question;
+    </select>
+
+
+
 
 </mapper>

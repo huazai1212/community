@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 @Mapper
-public interface UserDao {
+public interface UserMapper {
 
     //增加用户
     void insert(User user);
