@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,7 +24,8 @@ public class IndexController {
     private PaginationDTO paginationDTO;
 
 
-    @GetMapping("/")
+//    @GetMapping("/")
+    @RequestMapping("/")
     public String index(HttpServletRequest request,
                         @RequestParam(name = "page",defaultValue = "1")Integer Currentpage,//页码
                         @RequestParam(name = "size",defaultValue = "3")Integer size,//页面大小，即每页几条
